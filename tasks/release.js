@@ -45,7 +45,7 @@ module.exports = function(gulp){
 	  });
 	});
 
-  gulp.tast('push', function() {
+  gulp.task('push', function() {
     return gulp.src(paths.versionsToBump).pipe(filter(paths.version)).pipe(tag_version()).pipe(git.push('origin', 'master', {
       args: '--tags'
     }));
