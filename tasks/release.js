@@ -32,11 +32,26 @@ module.exports = function(gulp){
     dest: '.'
   };
 
-  gulp.task('tag', ['bump', 'commit'], function() {
+  gulp.task('tag', ['bump', 'commit', 'push']);
+
+  gulp.task('changelog', function (done) {
+	  require('conventional-changelog')({
+	    repository: 'https://github.com/nicksrandall/kotojs',
+	    version: require('./package.json').version
+	  }, function(err, log) {
+	    $.file('CHANGELOG.md', log, { src: true })
+	      .pipe(gulp.dest('./'))
+	      .on('end', done);
+	  });
+	});
+
+  gulp.tast('push', function() {
     return gulp.src(paths.versionsToBump).pipe(filter(paths.version)).pipe(tag_version()).pipe(git.push('origin', 'master', {
       args: '--tags'
     }));
   });
+
+  gulp.task('release', ['bump', 'changelog', 'commit', 'push']);
 
   gulp.task('add', function() {
     return gulp.src(paths.versionsToBump).pipe(git.add());
@@ -67,6 +82,4 @@ module.exports = function(gulp){
       type: versioning()
     })).pipe(gulp.dest(paths.dest));
   });
-
-
 };
