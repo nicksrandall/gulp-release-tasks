@@ -1,5 +1,5 @@
 module.exports = function(gulp){
-  var argv, bump, filter, fs, git, paths, prompt, tag_version, versioning;
+  var argv, bump, filter, fs, git, paths, prompt, tag_version, versioning, file;
 
   fs = require('fs');
   prompt = require('gulp-prompt');
@@ -8,6 +8,7 @@ module.exports = function(gulp){
   filter = require('gulp-filter');
   tag_version = require('gulp-tag-version');
   argv = require('yargs').argv;
+  file = require('gulp-file');
 
   var versioningFiles = function(){
     if(argv.bower){
@@ -37,9 +38,9 @@ module.exports = function(gulp){
   gulp.task('changelog', function (done) {
 	  require('conventional-changelog')({
 	    repository: 'https://github.com/nicksrandall/kotojs',
-	    version: require('./package.json').version
+	    version: require(bumpPreference).version
 	  }, function(err, log) {
-	    $.file('CHANGELOG.md', log, { src: true })
+	    file('CHANGELOG.md', log, { src: true })
 	      .pipe(gulp.dest('./'))
 	      .on('end', done);
 	  });
