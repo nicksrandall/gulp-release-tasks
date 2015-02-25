@@ -38,7 +38,7 @@ module.exports = function(gulp){
   gulp.task('changelog', function (done) {
 	  require('conventional-changelog')({
 	    repository: 'https://github.com/nicksrandall/kotojs',
-	    version: require(bumpPreference).version
+	    version: JSON.parse(fs.readFileSync(bumpPreference, 'utf8')).version
 	  }, function(err, log) {
 	    file('CHANGELOG.md', log, { src: true })
 	      .pipe(gulp.dest('./'))
