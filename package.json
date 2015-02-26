@@ -1,7 +1,7 @@
 {
   "name": "gulp-changelog-release",
   "repository": "https://github.com/nicksrandall/gulp-release-tasks",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "loader.js",
   "dependencies": {
     "conventional-changelog": "^0.0.11",
