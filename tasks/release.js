@@ -58,13 +58,13 @@ module.exports = function(gulp){
     return gulp.src(paths.versionsToBump).pipe(git.add());
   });
 
-  gulp.task('commit', ['add'], function() {
+  gulp.task('commit', ['add'], function(done) {
     return gulp.src(paths.version).pipe(prompt.prompt({
       type: 'input',
       name: 'commit',
       message: 'enter a commit msg, eg initial commit'
     }, function(res) {
-      return gulp.src('.').pipe(git.commit(res.commit));
+      return gulp.src('.').pipe(git.commit(res.commit)).on('end', done);
     }));
   });
 
